@@ -21,7 +21,7 @@
 			<div class="header_title">
 				<h1>도면기반 유형자산 관리 시스템</h1>
 			</div>
-			<form method="post">
+			<form method="post" action="./asset_regedit.php">
 				<div class="header_btn">
 					<button class="btn btn_primary" type="submit">자산등록하기</button>
 				</div>

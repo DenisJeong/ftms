@@ -3,6 +3,8 @@ include './include/header.php';
 include_once './include/helper.php';
 include_once './include/db_helper.php';
 
+session_cache_limiter('nocache');
+
 if (!empty($_POST['code'])) {
 	$code = $_POST['code'];
 } else { $code = ''; }
@@ -77,16 +79,10 @@ var_dump($line_number);
 					<th>구입처담당자</th>
 				</tr>
 				<?php
-					for ($i = 0; $i <= $number ; $i++) { 
+					for ($i = 0; $i < $number ; $i++) { 
 				?>
 				<tr>
-					<?php if ((int)$i = $number) {
-						for ($j= 1; $j <= $i ; $j++) {?> 
-							<td><?=$code?></td>
-						<?php }
-						
-					}else{echo "값없음";}?>
-					</td>
+					<td><?=$code?></td>
 					<td><?=$item?></td>
 					<td><?=$color?></td>
 					<td><?=$size?></td>
