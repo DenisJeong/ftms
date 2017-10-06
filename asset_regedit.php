@@ -2,9 +2,12 @@
 include './include/header.php';
 include_once './include/helper.php';
 include_once './include/db_helper.php';
+//$regedit = array($_POST);
+?>
 
-session_cache_limiter('nocache');
 
+<?php
+// asset_regedit 입력창에서 GET과 POST로 받기
 if (!empty($_POST['code'])) {
 	$code = $_POST['code'];
 } else { $code = ''; }
@@ -47,13 +50,41 @@ if (!empty($_POST['expiry_date'])) {
 if (!empty($_POST['administrator'])) {
 	$administrator = $_POST['administrator'];
 } else { $administrator = ''; }
+
+if (!empty($_GET['number'])) {
+	$number = (int)$_GET['number'];
+} else { $number = 0; }
+
+
+/*
+$code = $_POST['code'];
+$item = $_POST['item'];
+$color = $_POST['color'];
+$size = $_POST['size'];
+$location = $_POST['location'];
+$purchase_date = $_POST['purchase_date'];
+$manufacturer = $_POST['manufacturer'];
+$wheretobuy = $_POST['wheretobuy'];
+$contact = $_POST['contact'];
+$asset_no = $_POST['asset_no'];
+$seat_no = $_POST['seat_no'];
+$user_no = $_POST['user_no'];
+$expiry_date = $_POST['expiry_date'];
+$administrator = $_POST['administrator'];
+*/
+
+//var_dump($code);
+$regedit_input = array(array($code, $code, $item, $size,'', $location, $purchase_date, $manufacturer, $wheretobuy, $contact, $asset_no, $seat_no, $user_no, $expiry_date, $administrator));
+var_dump($regedit_input[$number]);
+//var_dump(count($regedit_input[$number]));
+
+
 if (isset($_POST['number'])) {
 	$number = (int)$_POST['number'];
 	$line_number = $number + 1;
 } else {$number = 0; $line_number = 1;}
 var_dump($number);
 var_dump($line_number);
-
 ?>
 
 
@@ -79,10 +110,17 @@ var_dump($line_number);
 					<th>구입처담당자</th>
 				</tr>
 				<?php
-					for ($i = 0; $i < $number ; $i++) { 
+					for ($i = 0; $i < count($regedit_input); $i++) { 
 				?>
 				<tr>
-					<td><?=$code?></td>
+					<?php for ($j = 0; $j < count($regedit_input[$number]); $j++) { ?>
+							<td><?php echo $regedit_input[$i][$j] ?></td>
+					<?php }?>
+					<?php
+						var_dump($regedit[$i][$j]);
+					?>
+					
+				<!--<td><?=$code?></td>
 					<td><?=$item?></td>
 					<td><?=$color?></td>
 					<td><?=$size?></td>
@@ -97,6 +135,7 @@ var_dump($line_number);
 					<td><?=$user_no?></td>
 					<td><?=$expiry_date?></td>
 					<td><?=$administrator?></td>
+				-->
 				</tr>
 				<?php }?>
 
@@ -107,7 +146,7 @@ var_dump($line_number);
 		</div>
 		<div class="regedit_form">
 			<div class="regedit_form_left">
-				<form method="post" action="./asset_regedit.php">
+				<form method="post" action="./asset_regedit.php?number=<?=$number?>">
 					<table class="regedit_form_table">
 						<tr>
 							<th>제조사 제품코드</th>
@@ -174,7 +213,7 @@ var_dump($line_number);
 							<td><input type="text" class="form_control" name="administrator" id="administrator" placeholder="예)정진덕 -> 이름만 표기"></td>
 						</tr>
 					</table>
-					<input type="hidden" name="number" id="number" value="<?php if (empty($line_number)) {
+					<input type="text" name="number" id="number" value="<?php if (empty($line_number)) {
 																					$line_number = 0;
 																					echo($line_number);
 																				} else {
