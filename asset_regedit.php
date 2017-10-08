@@ -2,7 +2,6 @@
 include './include/header.php';
 include_once './include/helper.php';
 include_once './include/db_helper.php';
-//$regedit = array($_POST);
 ?>
 
 
@@ -51,10 +50,16 @@ if (!empty($_POST['administrator'])) {
 	$administrator = $_POST['administrator'];
 } else { $administrator = ''; }
 
-if (!empty($_GET['number'])) {
-	$number = (int)$_GET['number'];
-} else { $number = 0; }
-
+if (!empty($_POST['number'])) {
+	$number = (int)$_POST['number'];
+	$line_number = $number + 1;
+} else { 
+	$number = 0;
+	$line_number = $number + 1;
+}
+	$array_number = $number - 1;
+//var_dump($number);
+//var_dump($line_number);
 
 /*
 $code = $_POST['code'];
@@ -74,17 +79,20 @@ $administrator = $_POST['administrator'];
 */
 
 //var_dump($code);
-$regedit_input = array(array($code, $code, $item, $size,'', $location, $purchase_date, $manufacturer, $wheretobuy, $contact, $asset_no, $seat_no, $user_no, $expiry_date, $administrator));
-var_dump($regedit_input[$number]);
+$regedit = array($code, $item, $color, $size,'', $location, $purchase_date, $manufacturer, $wheretobuy, $contact, $asset_no, $seat_no, $user_no, $expiry_date, $administrator);
+$regedit_input = array($regedit);
+for ($h = 0; $h < $number ; $h++) {
+	 array_push($regedit_input, $regedit_input[$h]);
+}
+var_dump($regedit_input);
+
+
+
+
+
+//var_dump($regedit_input[$array_number]);
 //var_dump(count($regedit_input[$number]));
 
-
-if (isset($_POST['number'])) {
-	$number = (int)$_POST['number'];
-	$line_number = $number + 1;
-} else {$number = 0; $line_number = 1;}
-var_dump($number);
-var_dump($line_number);
 ?>
 
 
@@ -109,35 +117,20 @@ var_dump($line_number);
 					<th>내구년한종료일</th>
 					<th>구입처담당자</th>
 				</tr>
-				<?php
-					for ($i = 0; $i < count($regedit_input); $i++) { 
-				?>
-				<tr>
-					<?php for ($j = 0; $j < count($regedit_input[$number]); $j++) { ?>
-							<td><?php echo $regedit_input[$i][$j] ?></td>
-					<?php }?>
 					<?php
-						var_dump($regedit[$i][$j]);
+						for ($i = 0; $i < $number; $i++) { 
 					?>
+				<tr>
+					<?php for ($j = 0; $j < count($regedit_input[$array_number]); $j++) { ?>
+							<td><?php echo $regedit_input[$array_number][$j]?></td>
+					<?php }?>
 					
-				<!--<td><?=$code?></td>
-					<td><?=$item?></td>
-					<td><?=$color?></td>
-					<td><?=$size?></td>
-					<td></td>
-					<td><?=$location?></td>
-					<td><?=$purchase_date?></td>
-					<td><?=$manufacturer?></td>
-					<td><?=$wheretobuy?></td>
-					<td><?=$contact?></td>
-					<td><?=$asset_no?></td>
-					<td><?=$seat_no?></td>
-					<td><?=$user_no?></td>
-					<td><?=$expiry_date?></td>
-					<td><?=$administrator?></td>
-				-->
 				</tr>
 				<?php }?>
+				<?php
+						//var_dump($number);
+						//var_dump(count($regedit_input[$array_number]));
+					?>
 
 			</table>
 			<form method="post" class="regedit_btn" action="./asset_regedit_action.php">
@@ -226,3 +219,21 @@ var_dump($line_number);
 	</div>
 	<br>
 <?php include './include/footer.php'; ?>
+
+
+<!--<td><?=$code?></td>
+					<td><?=$item?></td>
+					<td><?=$color?></td>
+					<td><?=$size?></td>
+					<td></td>
+					<td><?=$location?></td>
+					<td><?=$purchase_date?></td>
+					<td><?=$manufacturer?></td>
+					<td><?=$wheretobuy?></td>
+					<td><?=$contact?></td>
+					<td><?=$asset_no?></td>
+					<td><?=$seat_no?></td>
+					<td><?=$user_no?></td>
+					<td><?=$expiry_date?></td>
+					<td><?=$administrator?></td>
+				-->
