@@ -79,16 +79,20 @@ $administrator = $_POST['administrator'];
 */
 
 //var_dump($code);
-$regedit = array($code, $item, $color, $size,'', $location, $purchase_date, $manufacturer, $wheretobuy, $contact, $asset_no, $seat_no, $user_no, $expiry_date, $administrator);
+$regedit = array($code, $item, $color, $size, '', $location, $purchase_date, $manufacturer, $wheretobuy, $contact, $asset_no, $seat_no, $user_no, $expiry_date, $administrator);
 $regedit_input = array($regedit);
-for ($h = 0; $h < $number ; $h++) {
-	 array_push($regedit_input, $regedit_input[$h]);
+
+//var_dump($regedit_input);
+
+db_open();
+
+if ($line_number > 1) {
+	$sql_body = "SET code = '%s', item = '%s', color = '%s', size = '%s', image = '%s', location = '%s', purchase_date = '%s', manufacturer = '%s', wheretobuy = '%s', contact = '%s', asset_no = '%s', seat_no = '%s', user_no = '%s', expiry_date = '%s', administrator = '%s'";
+	//var_dump($sql_body);
+$sql = "INSERT INTO `temp-list` {$sql_body}";
+$input = $regedit;
+$result = db_query($sql, $input);
 }
-var_dump($regedit_input);
-
-
-
-
 
 //var_dump($regedit_input[$array_number]);
 //var_dump(count($regedit_input[$number]));
@@ -101,6 +105,7 @@ var_dump($regedit_input);
 		<div>
 			<table class="regedit_table">
 				<tr>
+					<th>번호</th>
 					<th>제품코드</th>
 					<th>품목</th>
 					<th>색상</th>
@@ -118,28 +123,40 @@ var_dump($regedit_input);
 					<th>구입처담당자</th>
 				</tr>
 					<?php
-						for ($i = 0; $i < $number; $i++) { 
+						$sql = "SELECT * FROM `temp-list` ORDER BY `id` DESC";
+						$input = $regedit;
+						$result = db_query($sql, $input);
+						for ($i = 0; $i < count($result); $i++) { 
 					?>
-				<tr>
-					<?php for ($j = 0; $j < count($regedit_input[$array_number]); $j++) { ?>
-							<td><?php echo $regedit_input[$array_number][$j]?></td>
-					<?php }?>
-					
+				<tr class="regedit_table_row">
+					<td><?=$i + 1?></td>
+					<td><?=$result[$i]['code']?></td>
+					<td><?=$result[$i]['item']?></td>
+					<td><?=$result[$i]['color']?></td>
+					<td><?=$result[$i]['size']?></td>
+					<td></td>
+					<td><?=$result[$i]['location']?></td>
+					<td><?=$result[$i]['purchase_date']?></td>
+					<td><?=$result[$i]['manufacturer']?></td>
+					<td><?=$result[$i]['wheretobuy']?></td>
+					<td><?=$result[$i]['contact']?></td>
+					<td><?=$result[$i]['asset_no']?></td>
+					<td><?=$result[$i]['seat_no']?></td>
+					<td><?=$result[$i]['user_no']?></td>
+					<td><?=$result[$i]['expiry_date']?></td>
+					<td><?=$result[$i]['administrator']?></td>										
 				</tr>
-				<?php }?>
-				<?php
-						//var_dump($number);
-						//var_dump(count($regedit_input[$array_number]));
-					?>
-
+					<?php }?>
+				
 			</table>
 			<form method="post" class="regedit_btn" action="./asset_regedit_action.php">
+				<input type="hidden" name="regedit" value="등록하기">
 				<button type="submit" class="btn btn_primary">등록하기</button>
 			</form>			
 		</div>
 		<div class="regedit_form">
 			<div class="regedit_form_left">
-				<form method="post" action="./asset_regedit.php?number=<?=$number?>">
+				<form method="post" action="./asset_regedit.php">
 					<table class="regedit_form_table">
 						<tr>
 							<th>제조사 제품코드</th>
@@ -206,7 +223,7 @@ var_dump($regedit_input);
 							<td><input type="text" class="form_control" name="administrator" id="administrator" placeholder="예)정진덕 -> 이름만 표기"></td>
 						</tr>
 					</table>
-					<input type="text" name="number" id="number" value="<?php if (empty($line_number)) {
+					<input type="hidden" name="number" id="number" value="<?php if (empty($line_number)) {
 																					$line_number = 0;
 																					echo($line_number);
 																				} else {
@@ -221,7 +238,7 @@ var_dump($regedit_input);
 <?php include './include/footer.php'; ?>
 
 
-<!--<td><?=$code?></td>
+				<!--<td><?=$code?></td>
 					<td><?=$item?></td>
 					<td><?=$color?></td>
 					<td><?=$size?></td>

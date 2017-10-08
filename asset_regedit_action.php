@@ -5,83 +5,35 @@ include_once './include/db_helper.php';
 
 // SQL 쿼리
 
-// asset_regedit 입력창에서 GET과 POST로 받기
-if (!empty($_POST['code'])) {
-	$code = array($_POST['code']);
-} else { $code = ''; }
-if (!empty($_POST['item'])) {
-	$item = $_POST['item'];
-} else { $item = ''; }
-if (!empty($_POST['color'])) {
-	$color = $_POST['color'];
-} else { $color = ''; }
-if (!empty($_POST['size'])) {
-	$size = $_POST['size'];
-} else { $size = ''; }
-if (!empty($_POST['location'])) {
-	$location = $_POST['location'];
-} else { $location = ''; }
-if (!empty($_POST['purchase_date'])) {
-	$purchase_date = $_POST['purchase_date'];
-} else { $purchase_date = ''; }
-if (!empty($_POST['manufacturer'])) {
-	$manufacturer = $_POST['manufacturer'];
-} else { $manufacturer = ''; }
-if (!empty($_POST['wheretobuy'])) {
-	$wheretobuy = $_POST['wheretobuy'];
-} else { $wheretobuy = ''; }
-if (!empty($_POST['contact'])) {
-	$contact = $_POST['contact'];
-} else { $contact = ''; }
-if (!empty($_POST['asset_no'])) {
-	$asset_no = $_POST['asset_no'];
-} else { $asset_no = ''; }
-if (!empty($_POST['seat_no'])) {
-	$seat_no = $_POST['seat_no'];
-} else { $seat_no = ''; }
-if (!empty($_POST['user_no'])) {
-	$user_no = $_POST['user_no'];
-} else { $user_no = ''; }
-if (!empty($_POST['expiry_date'])) {
-	$expiry_date = $_POST['expiry_date'];
-} else { $expiry_date = ''; }
-if (!empty($_POST['administrator'])) {
-	$administrator = $_POST['administrator'];
-} else { $administrator = ''; }
+db_open();
+
+if ($_POST['regedit'] == "등록하기") {
+	//asset-list 테이블로 임시 DB(temp-list)복사하기
+	$sql = "INSERT INTO `asset-list` SELECT * FROM `temp-list`";
+	$input = array();
+	$result = db_query($sql, $input);
+	if (!$result) {
+		redirect(false, '등록이 되지 않았습니다. 다시 시도해주세요.');
+		exit;
+	}
+
+	//asset-list 테이블로 복사한 후, 임시 DB 데이터 모두 삭제하기
+	$sql = "DELETE FROM `temp-list";
+	$input = array();
+	$result = db_query($sql, $input);
+	if (!$result) {
+		redirect(false, '서버에 오류가 있습니다. 다시 시도해주세요.');
+		exit;
+	}
+	echo "<meta http-equiv='refresh' content='0; url=./asset_regedit.php'> ";
+	echo "<script type='text/javascript'>alert('" . '등록이 완료 됐습니다.' . "');</script>";
+	//redirect(false, '등록이 완료 됐습니다.');
+	//	exit;
+}
+
+	
 
 
-$number = $_GET['number'];
-
-/*
-$code = $_POST['code'];
-$item = $_POST['item'];
-$color = $_POST['color'];
-$size = $_POST['size'];
-$location = $_POST['location'];
-$purchase_date = $_POST['purchase_date'];
-$manufacturer = $_POST['manufacturer'];
-$wheretobuy = $_POST['wheretobuy'];
-$contact = $_POST['contact'];
-$asset_no = $_POST['asset_no'];
-$seat_no = $_POST['seat_no'];
-$user_no = $_POST['user_no'];
-$expiry_date = $_POST['expiry_date'];
-$administrator = $_POST['administrator'];
-*/
-
-//var_dump($code);
-$regedit_input = array($number => array($code, $code, $item, $size,'', $location, $purchase_date, $manufacturer, $wheretobuy, $contact, $asset_no, $seat_no, $user_no, $expiry_date, $administrator));
-var_dump($regedit_input[$number]);
-?>
-
-<!--regedit table에 입력하기 위한 input type hidden code-->
-<form method="POST" action="./asset_regedit.php?regedit_input=<?=$regedit_input[$number]?>">
-	<input type="text" name="<?=$regedit_input?>" id="regidit_input">
-</form>
-
-<?php
-$number = $_GET['number'];
-var_dump($number);
 //echo("<meta http-equiv='refresh' content='0' url='./asset_regedit.php'>");
 //if ($regedit_input) {
 //	redirect(false,'입력이 되었습니다.');
