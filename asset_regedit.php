@@ -17,13 +17,18 @@ if (!empty($_POST['color'])) {
 	$color = $_POST['color'];
 } else { $color = ''; }
 if (!empty($_POST['size'])) {
-	$size = $_POST['size'];
-} else { $size = ''; }
+	$product_size = $_POST['size'];
+} else { $product_size = ''; }
 if (!empty($_POST['location'])) {
 	$location = $_POST['location'];
 } else { $location = ''; }
 if (!empty($_POST['purchase_date'])) {
 	$purchase_date = $_POST['purchase_date'];
+	$y = substr($purchase_date, 0, 2);
+	$m = substr($purchase_date, 2, 2);
+	$d = substr($purchase_date, 4, 2);
+	$purchase_ymd = '20' . $y . '-' .  $m . '-' .  $d; 
+	var_dump($purchase_ymd);
 } else { $purchase_date = ''; }
 if (!empty($_POST['manufacturer'])) {
 	$manufacturer = $_POST['manufacturer'];
@@ -45,7 +50,10 @@ if (!empty($_POST['user_no'])) {
 } else { $user_no = ''; }
 if (!empty($_POST['expiry_date'])) {
 	$expiry_date = $_POST['expiry_date'];
-} else { $expiry_date = ''; }
+	//이유는 모르겠으나 2037년 후는 입력이 안된다.
+	$calculated_expiry_date = date("Y-m-d", strtotime($purchase_ymd . "+" . $expiry_date . "year"));
+	var_dump($calculated_expiry_date);
+} else { $expiry_date = ''; $calculated_expiry_date = '';}
 if (!empty($_POST['administrator'])) {
 	$administrator = $_POST['administrator'];
 } else { $administrator = ''; }
@@ -61,37 +69,52 @@ if (!empty($_POST['number'])) {
 //var_dump($number);
 //var_dump($line_number);
 
-/*
-$code = $_POST['code'];
-$item = $_POST['item'];
-$color = $_POST['color'];
-$size = $_POST['size'];
-$location = $_POST['location'];
-$purchase_date = $_POST['purchase_date'];
-$manufacturer = $_POST['manufacturer'];
-$wheretobuy = $_POST['wheretobuy'];
-$contact = $_POST['contact'];
-$asset_no = $_POST['asset_no'];
-$seat_no = $_POST['seat_no'];
-$user_no = $_POST['user_no'];
-$expiry_date = $_POST['expiry_date'];
-$administrator = $_POST['administrator'];
-*/
+/* 제품이미지 이미지 파일 업로드*/
+
+$file_name = '';
+if (!empty($_FILES)) {
+	$original_file_name = $_FILES['product_image']['name']; // 파일의 원본 이름
+	$type = $_FILES['product_image']['type'];		 // 파일의 형식
+	$size = $_FILES['product_image']['size'];		 // 파일의 용량
+	$tmp_name = $_FILES['product_image']['tmp_name']; // 서버에 업로드 된 임시파일 이름
+	//if (!empty($temp_list['product_image'])) {
+	//	$uploaded_file_name = './images/product-img/' . $temp_list['product_image'];
+		//var_dump($del_file_name);
+	//}
+	$upload_data = single_upload($original_file_name, $type, $size, $tmp_name, $file_name);
+	$file_name = $upload_data['file_name'];
+}
+
+//if (!$upload_data) {
+//	redirect(false, '업로드에 실패했습니다.');
+//	exit;
+//} else {
+  	//echo("<h2>업로드 된 파일 정보</h2>");
+	//echo("<pre>");
+	//print_r($upload_data);
+	//echo("</pre>");
+  
+//}
+
+// 이미지 파일 업로드 끝/*
+
 
 //var_dump($code);
-$regedit = array($code, $item, $color, $size, '', $location, $purchase_date, $manufacturer, $wheretobuy, $contact, $asset_no, $seat_no, $user_no, $expiry_date, $administrator);
+$regedit = array($code, $item, $color, $product_size, $file_name, $location, $purchase_date, $manufacturer, $wheretobuy, $contact, $asset_no, $seat_no, $user_no, $calculated_expiry_date, $administrator);
 $regedit_input = array($regedit);
 
 //var_dump($regedit_input);
 
 db_open();
 
+//임시로 DB에 저장하기(temp-list 테이블)
 if ($line_number > 1) {
 	$sql_body = "SET code = '%s', item = '%s', color = '%s', size = '%s', image = '%s', location = '%s', purchase_date = '%s', manufacturer = '%s', wheretobuy = '%s', contact = '%s', asset_no = '%s', seat_no = '%s', user_no = '%s', expiry_date = '%s', administrator = '%s'";
 	//var_dump($sql_body);
 $sql = "INSERT INTO `temp-list` {$sql_body}";
 $input = $regedit;
 $result = db_query($sql, $input);
+$temp_list = $result;
 }
 
 //var_dump($regedit_input[$array_number]);
@@ -134,7 +157,7 @@ $result = db_query($sql, $input);
 					<td><?=$result[$i]['item']?></td>
 					<td><?=$result[$i]['color']?></td>
 					<td><?=$result[$i]['size']?></td>
-					<td></td>
+					<td><img src="./images/product-img/<?=$result[$i]['image']?>" alt=""></td>
 					<td><?=$result[$i]['location']?></td>
 					<td><?=$result[$i]['purchase_date']?></td>
 					<td><?=$result[$i]['manufacturer']?></td>
@@ -156,7 +179,7 @@ $result = db_query($sql, $input);
 		</div>
 		<div class="regedit_form">
 			<div class="regedit_form_left">
-				<form method="post" action="./asset_regedit.php">
+				<form method="post" action="./asset_regedit.php" enctype="multipart/form-data">
 					<table class="regedit_form_table">
 						<tr>
 							<th>제조사 제품코드</th>
@@ -216,7 +239,7 @@ $result = db_query($sql, $input);
 						</tr>
 						<tr>
 							<th>내구년한</th>
-							<td><input type="text" class="form_control" name="expiry_date" id="expiry_date" placeholder="예)7years -> 반드시 숫자+years로 표기"></td>
+							<td><input type="text" class="form_control" name="expiry_date" id="expiry_date" placeholder="예)7년 -> 7 (반드시 년도 숫자로만 표기)"></td>
 						</tr>
 						<tr>
 							<th>구입처 담당자</th>

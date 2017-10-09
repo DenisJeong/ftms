@@ -169,7 +169,7 @@ function single_upload($original_file_name, $type, $size, $tmp_name, $file_name)
 
     /*파일이 저장될 폴더 준비하기*/
     //DocumentRoot 안에서의 저장폴더 경로를 구성한다.
-    $upload_dir_uri = "/images";
+    $upload_dir_uri = "/171004_fms/images/product-img";
     //DocumentRoot의 실제 경로를 얻어와서 전체 경로를 구성한다.
     $upload_dir_path = $_SERVER['DOCUMENT_ROOT'] . $upload_dir_uri;
     //폴더가 없으면 중지.
@@ -189,7 +189,7 @@ function single_upload($original_file_name, $type, $size, $tmp_name, $file_name)
 
     // 일단 무한루프
     //파일이 복사될 이름
-    $file_name = 'works-logo-' . date('Y-m-d') . $file_ext;
+    $file_name = date('Y-m-d') . $file_ext;
     for ($i = 1; $i > 0 ; $i++) { 
         
         //파일이 복사될 웹 상의 경로
@@ -201,7 +201,7 @@ function single_upload($original_file_name, $type, $size, $tmp_name, $file_name)
         if (!is_file($upload_path)) {
             break;
          } else {
-            $file_name = 'works-logo-' . date('Y-m-d') . "-{$i}" . $file_ext;
+            $file_name = date('Y-m-d') . "-{$i}" . $file_ext;
          }
     }
 

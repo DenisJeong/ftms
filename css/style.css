@@ -48,10 +48,10 @@ input[type="file"] {
 	border-bottom: 1px solid #ccc;
 }
 .header_inner {	
+	position: relative;
 	margin: 0 auto 10px auto;
 	width: 1080px;
 	height: 80px;
-	position: relative;
 }
 .header_logo {
 	width: 300px;
@@ -68,14 +68,21 @@ input[type="file"] {
 .header_title h1 {
 	margin: 0;
 }
-.header form {
+/*.header form {
 	position: absolute;
 	right: 0%;
 	bottom: 0%;
-}
+}*/
 .header_btn {
+	position: absolute;
+	right: 0%;
+	width: 500px;
+	bottom: 0%;
+}
+.header_btn .btn {
 	float: right;
 }
+
 
 
 
@@ -173,6 +180,9 @@ iframe {
 }
 .regedit .regedit_table td:first-child {
 	border-left: 2px dotted #e4e7f0;
+}
+.regedit .regedit_table_row img {
+	width: 50px;
 }
 .regedit_btn {
 	text-align: right;
