@@ -124,9 +124,9 @@ $temp_list = $result;
 
 
 
-	<div class="regedit">
+	<div class="edit">
 		<div>
-			<table class="regedit_table">
+			<table class="edit_table">
 				<tr>
 					<th>번호</th>
 					<th>제품코드</th>
@@ -151,7 +151,7 @@ $temp_list = $result;
 						$result = db_query($sql, $input);
 						for ($i = 0; $i < count($result); $i++) { 
 					?>
-				<tr class="regedit_table_row">
+				<tr class="edit_table_row">
 					<td><?=$i + 1?></td>
 					<td><?=$result[$i]['code']?></td>
 					<td><?=$result[$i]['item']?></td>
@@ -172,15 +172,15 @@ $temp_list = $result;
 					<?php }?>
 				
 			</table>
-			<form method="post" class="regedit_btn" action="./asset_regedit_action.php">
+			<form method="post" class="edit_btn" action="./asset_regedit_action.php">
 				<input type="hidden" name="regedit" value="등록하기">
 				<button type="submit" class="btn btn_primary">등록하기</button>
 			</form>			
 		</div>
-		<div class="regedit_form">
-			<div class="regedit_form_left">
+		<div class="edit_form">
+			<div class="edit_form_left">
 				<form method="post" action="./asset_regedit.php" enctype="multipart/form-data">
-					<table class="regedit_form_table">
+					<table class="edit_form_table">
 						<tr>
 							<th>제조사 제품코드</th>
 							<td><input type="text" class="form_control" name="code" id="code" placeholder="예)CHN4300AH"></td>
@@ -215,8 +215,8 @@ $temp_list = $result;
 						</tr>
 					</table>			
 				</div>
-				<div class="regedit_form_right">
-					<table class="regedit_form_table">
+				<div class="edit_form_right">
+					<table class="edit_form_table">
 						<tr>
 							<th>구입처</th>
 							<td><input type="text" class="form_control" name="wheretobuy" id="wheretobuy" placeholder="예)퍼시스 오피스컨설팅그룹"></td>

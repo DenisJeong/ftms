@@ -148,76 +148,96 @@ iframe {
 	border-bottom: 2px solid #e4e7f0;
 }
 /*asset_regedit*/ 
-.regedit {
+.edit {
 	width: 1080px;
 	margin: 40px auto 0 auto;
 	overflow: hidden;
 }
-.regedit_table {
+.edit_table {
 	border-collapse: collapse;
 	width: 100%;
 	border-top: 2px solid #e4e7f0;
 	font-size: 0.9em;
 }
 /*
-.regedit .regedit_table tr:nth-child(2) {
+.edit .edit_table tr:nth-child(2) {
 	display: none;
 }
 */
-.regedit .regedit_table th {
+.edit .edit_table th {
 	border-bottom: 2px solid #e4e7f0;
 	border-right: 2px dotted #e4e7f0;
 	height: 30px;
 }
-.regedit .regedit_table th:first-child {
+.edit .edit_table th:first-child {
 	border-left: 2px dotted #e4e7f0;
 }
-.regedit .regedit_table td {
+.edit .edit_table td {
 	border-bottom: 2px solid #e4e7f0;
 	border-right: 2px dotted #e4e7f0;
 	height: 30px;
 	text-align: center;
 }
-.regedit .regedit_table td:first-child {
+.edit .edit_table td:first-child {
 	border-left: 2px dotted #e4e7f0;
 }
-.regedit .regedit_table_row img {
+.edit .edit_table_row img {
 	width: 50px;
 }
-.regedit_btn {
+.edit_btn {
 	text-align: right;
 	padding-top: 5px;
 }
-.regedit_form {
+.edit_form {
 	width: 1080px;
 	margin: 20px auto 20px auto;
 }
-.regedit_form_left {
+.edit_form_left {
 	width: 520px;
 	float: left;
 }
-.regedit_form_right {
+.edit_form_right {
 	width: 520px;
 	float: right;
 }
-.regedit_form_table {
+.edit_form_table {
 	border-collapse: collapse;
 	width: 100%;
 	border-top: 2px solid #e4e7f0;
 }
-.regedit_form_table td {
+.edit_form_table td {
 	border-bottom: 2px solid #e4e7f0;
 	height: 30px;
 }
-.regedit_form_table th {
+.edit_form_table th {
 	width: 30%;
 	text-align: right;
 	background-color: #f6f9ff;
 	border-bottom: 2px solid #e4e7f0;
 }
-.regedit_form .btn_primary {
+.edit_form .btn_primary {
 	float: right;
 	margin-top: 5px;
+}
+/*asset_search*/
+.search_inner {
+	margin: 40px auto 0 auto;
+	overflow: hidden;
+}
+.src_btn .btn {
+	float: right;
+}
+.src_btn label {
+	border-left: 3px solid #ccc;
+	padding-left: 3px;
+
+}
+.src_form_control {
+	width: 15%;
+	height: 20px;
+	background-color: none;
+	margin-right: 1%;
+	border: 1px solid #bdbdbd;
 }
 
 /*footer*/

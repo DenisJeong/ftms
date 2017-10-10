@@ -26,7 +26,7 @@
 					
 						<button class="btn btn_primary" type="submit">자산등록하기</button>
 				</form>
-				<form method="post" action="./asset_regedit.php">
+				<form method="post" action="./asset_search.php">
 						<button class="btn btn_primary" type="submit">자산검색하기</button>
 				</form>
 			</div>
