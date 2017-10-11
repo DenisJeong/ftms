@@ -12,7 +12,7 @@ include_once './include/db_helper.php';
 ?>
 	<div class="floorplan">
 		<!--iframe이든 다른 것이든 사용법 알기-->
-		<iframe class="pdf" src="./files/ftms_test.pdf" frameborder="0" width="100%" height="800" marginheight="0" marginwidth="0" scrolling="no">
+		<iframe class="pdf" src="./files/ftms_test.pdf" frameborder="0" width="100%" height="100%" marginheight="0" marginwidth="0" scrolling="no">
 			
 		</iframe>	
 	</div>

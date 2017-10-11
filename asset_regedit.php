@@ -28,7 +28,7 @@ if (!empty($_POST['purchase_date'])) {
 	$m = substr($purchase_date, 2, 2);
 	$d = substr($purchase_date, 4, 2);
 	$purchase_ymd = '20' . $y . '-' .  $m . '-' .  $d; 
-	var_dump($purchase_ymd);
+	//var_dump($purchase_ymd);
 } else { $purchase_date = ''; }
 if (!empty($_POST['manufacturer'])) {
 	$manufacturer = $_POST['manufacturer'];
@@ -52,7 +52,7 @@ if (!empty($_POST['expiry_date'])) {
 	$expiry_date = $_POST['expiry_date'];
 	//이유는 모르겠으나 2037년 후는 입력이 안된다.
 	$calculated_expiry_date = date("Y-m-d", strtotime($purchase_ymd . "+" . $expiry_date . "year"));
-	var_dump($calculated_expiry_date);
+	//var_dump($calculated_expiry_date);
 } else { $expiry_date = ''; $calculated_expiry_date = '';}
 if (!empty($_POST['administrator'])) {
 	$administrator = $_POST['administrator'];
@@ -97,24 +97,46 @@ if (!empty($_FILES)) {
 //}
 
 // 이미지 파일 업로드 끝/*
+db_open();
 
+//asset_list DB에서 가장 큰 id값 받기 (id 중복을 방지하기 위해)
+$sql = "SELECT MAX(id) FROM `asset-list`";
+$input = array();
+$result = db_query($sql, $input);
+$id = (int)$result[0]['MAX(id)'] + 1;
+var_dump($id);
 
 //var_dump($code);
-$regedit = array($code, $item, $color, $product_size, $file_name, $location, $purchase_date, $manufacturer, $wheretobuy, $contact, $asset_no, $seat_no, $user_no, $calculated_expiry_date, $administrator);
-$regedit_input = array($regedit);
+if ($line_number > 1 && $line_number <= 2)  {
+	$regedit = array($id, $code, $item, $color, $product_size, $file_name, $location, $purchase_date, $manufacturer, $wheretobuy, $contact, $asset_no, $seat_no, $user_no, $calculated_expiry_date, $administrator);
+	$regedit_input = array($regedit);
+} else if ($line_number > 2) {
+	$regedit = array($code, $item, $color, $product_size, $file_name, $location, $purchase_date, $manufacturer, $wheretobuy, $contact, $asset_no, $seat_no, $user_no, $calculated_expiry_date, $administrator);
+	$regedit_input = array($regedit);
+} else {
+	$regedit = '';
+}
+	
 
 //var_dump($regedit_input);
 
-db_open();
+
 
 //임시로 DB에 저장하기(temp-list 테이블)
-if ($line_number > 1) {
+if ($line_number > 1 && $line_number <= 2) {
+	$sql_body = "SET id = '%d', code = '%s', item = '%s', color = '%s', size = '%s', image = '%s', location = '%s', purchase_date = '%s', manufacturer = '%s', wheretobuy = '%s', contact = '%s', asset_no = '%s', seat_no = '%s', user_no = '%s', expiry_date = '%s', administrator = '%s'";
+	//var_dump($sql_body);
+	$sql = "INSERT INTO `temp-list` {$sql_body}";
+	$input = $regedit;
+	$result = db_query($sql, $input);
+	$temp_list = $result;
+} else if ($line_number > 2) {
 	$sql_body = "SET code = '%s', item = '%s', color = '%s', size = '%s', image = '%s', location = '%s', purchase_date = '%s', manufacturer = '%s', wheretobuy = '%s', contact = '%s', asset_no = '%s', seat_no = '%s', user_no = '%s', expiry_date = '%s', administrator = '%s'";
 	//var_dump($sql_body);
-$sql = "INSERT INTO `temp-list` {$sql_body}";
-$input = $regedit;
-$result = db_query($sql, $input);
-$temp_list = $result;
+	$sql = "INSERT INTO `temp-list` {$sql_body}";
+	$input = $regedit;
+	$result = db_query($sql, $input);
+	$temp_list = $result;
 }
 
 //var_dump($regedit_input[$array_number]);

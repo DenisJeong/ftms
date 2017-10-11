@@ -16,7 +16,9 @@ db_open();
 					<label for="src_asset_no">자산번호</label>
 					<input type="text" name="src_asset_no" class="src_form_control" value="">
 					<label for="src_purchase_date">구입기간</label>
-					<input type="text" name="src_purchase_date" class="src_form_control" value="">
+					<input type="text" name="src_purchase_date_from" class="src_form_control" value="">
+							~
+					<input type="text" name="src_purchase_date_to" class="src_form_control" value="">
 					<button type="submit" class="btn btn_primary">검색하기</button>
 				</form>
 			</div>	
@@ -48,10 +50,34 @@ db_open();
 							} else {
 								$src_code = '';
 							}
+							if (!empty($_POST['src_item'])) {
+								$src_item = $_POST['src_item'];
+							} else {
+								$src_item = '';
+							}
+							if (!empty($_POST['src_asset_no'])) {
+								$src_asset_no = $_POST['src_asset_no'];
+							} else {
+								$src_asset_no = '';
+							}
+							if (!empty($_POST['src_purchase_date_from'])) {
+								$src_purchase_date_from = $_POST['src_purchase_date_from'];
+							} else {
+								$src_purchase_date_from = '';
+							}
+							if (!empty($_POST['src_purchase_date_to'])) {
+								$src_purchase_date_to = $_POST['src_purchase_date_to'];
+							} else {
+								$src_purchase_date_to = '';
+							}
 
 
-							$sql = "SELECT * FROM `asset-list` WHERE `code` IN '$src_code'";
-							$input = array();
+							$sql = "SELECT * FROM `asset-list` WHERE `code` LIKE '%%%s%%' 
+																 AND `item` LIKE '%%%s%%'
+																 AND `asset_no` LIKE '%%%s%%'
+																 AND `purchase_date` BETWEEN '%s' AND '%s' 
+															   ORDER BY `id` DESC";
+							$input = array($src_code, $src_item, $src_asset_no, $src_purchase_date_from, $src_purchase_date_to);
 							$result = db_query($sql, $input);
 							for ($i = 0; $i < count($result); $i++) { 
 						?>
