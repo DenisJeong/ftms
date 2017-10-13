@@ -50,7 +50,7 @@ if (!empty($_POST['user_no'])) {
 } else { $user_no = ''; }
 if (!empty($_POST['expiry_date'])) {
 	$expiry_date = $_POST['expiry_date'];
-	//이유는 모르겠으나 2037년 후는 입력이 안된다.
+	//이유는 모르겠으나 2037년 후는 입력이 안된다. 32비트 버그라고 함.
 	$calculated_expiry_date = date("Y-m-d", strtotime($purchase_ymd . "+" . $expiry_date . "year"));
 	//var_dump($calculated_expiry_date);
 } else { $expiry_date = ''; $calculated_expiry_date = '';}
@@ -71,12 +71,18 @@ if (!empty($_POST['number'])) {
 
 /* 제품이미지 이미지 파일 업로드*/
 
-$file_name = '';
+
 if (!empty($_FILES)) {
 	$original_file_name = $_FILES['product_image']['name']; // 파일의 원본 이름
 	$type = $_FILES['product_image']['type'];		 // 파일의 형식
 	$size = $_FILES['product_image']['size'];		 // 파일의 용량
 	$tmp_name = $_FILES['product_image']['tmp_name']; // 서버에 업로드 된 임시파일 이름
+		// 파일의 확장자 추출하기
+		$p = strrpos($original_file_name, '.');
+	    $l = strlen($original_file_name);
+	    $file_ext = strtolower(substr($original_file_name, $p, $l - $p));
+	$file_name = $code . $file_ext;
+	var_dump($file_name);
 	//if (!empty($temp_list['product_image'])) {
 	//	$uploaded_file_name = './images/product-img/' . $temp_list['product_image'];
 		//var_dump($del_file_name);

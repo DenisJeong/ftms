@@ -183,27 +183,30 @@ function single_upload($original_file_name, $type, $size, $tmp_name, $file_name)
     $l = strlen($original_file_name);
     $file_ext = strtolower(substr($original_file_name, $p, $l - $p));
 
-    $file_name = '';    // 파일이 복사될 이름
+    //$code = '';         // 파일명을 코드명으로 적용하기 위한 초기화
+    //$file_name = '';    // 파일이 복사될 이름
     $upload_uri = '';   // 파일이 복사될 웹 상의 경로
     $upload_path = '';  // 파일이 복사될 전체 경로
 
     // 일단 무한루프
     //파일이 복사될 이름
-    $file_name = date('Y-m-d') . $file_ext;
-    for ($i = 1; $i > 0 ; $i++) { 
-        
-        //파일이 복사될 웹 상의 경로
-        $upload_uri = $upload_dir_uri . '/' . $file_name;
-        //파일이 복사될 전체 경로
-        $upload_path = $upload_dir_path . '/' . $file_name;
+    // $file_name = date('Y-m-d') . $file_ext;
+    //$file_name = $code . $file_ext;
+    // for ($i = 1; $i > 0 ; $i++) { 
+            
+            //파일이 복사될 웹 상의 경로
+    $upload_uri = $upload_dir_uri . '/' . $file_name;
+            //파일이 복사될 전체 경로
+    $upload_path = $upload_dir_path . '/' . $file_name;
 
-        //같은 이름의 파일이 없다면 반복 종료
-        if (!is_file($upload_path)) {
-            break;
-         } else {
-            $file_name = date('Y-m-d') . "-{$i}" . $file_ext;
-         }
-    }
+            //같은 이름의 파일이 없다면 반복 종료
+            //if (!is_file($upload_path)) {
+            //    break;
+            // } else {
+            //    $file_name = date('Y-m-d') . "-{$i}" . $file_ext;
+            //    $file_name = $code . "-{$i}" . $file_ext;
+            // }
+    //}
 
     /*파일 복사하기*/
     $is_copy = move_uploaded_file($tmp_name, $upload_path);
