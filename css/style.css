@@ -26,6 +26,9 @@ input[type="file"] {
 	background: none;
 	padding-left: 15px;
 }
+br {
+	height: 30px;
+}
 .btn_primary {
 	margin-left: 10px;
 	height: 30px;
@@ -199,12 +202,14 @@ iframe {
 	width: 520px;
 	float: right;
 }
-.edit_form_table {
+.edit_form_table,
+.edit_form_table0 {
 	border-collapse: collapse;
 	width: 100%;
 	border-top: 2px solid #e4e7f0;
 }
-.edit_form_table td {
+.edit_form_table td,
+.edit_form_table0 td {
 	border-bottom: 2px solid #e4e7f0;
 	height: 30px;
 }
@@ -212,6 +217,12 @@ iframe {
 	width: 30%;
 	text-align: right;
 	background-color: #f6f9ff;
+	border-bottom: 2px solid #e4e7f0;
+}
+.edit_form_table0 th {
+	width: 30%;
+	text-align: right;
+	background-color: #FFFFCC;
 	border-bottom: 2px solid #e4e7f0;
 }
 .edit_form .btn_primary {

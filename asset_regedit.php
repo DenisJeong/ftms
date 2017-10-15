@@ -82,13 +82,13 @@ if (!empty($_FILES)) {
 	    $l = strlen($original_file_name);
 	    $file_ext = strtolower(substr($original_file_name, $p, $l - $p));
 	$file_name = $code . $file_ext;
-	var_dump($file_name);
 	//if (!empty($temp_list['product_image'])) {
 	//	$uploaded_file_name = './images/product-img/' . $temp_list['product_image'];
 		//var_dump($del_file_name);
 	//}
 	$upload_data = single_upload($original_file_name, $type, $size, $tmp_name, $file_name);
 	$file_name = $upload_data['file_name'];
+	//var_dump($file_name);
 }
 
 //if (!$upload_data) {
@@ -158,13 +158,13 @@ if ($line_number > 1 && $line_number <= 2) {
 				<tr>
 					<th>번호</th>
 					<th>제품코드</th>
+					<th>제조사</th>
 					<th>품목</th>
-					<th>색상</th>
 					<th>사이즈</th>
 					<th>이미지</th>
+					<th>색상</th>
 					<th>제품위치</th>
 					<th>구입일</th>
-					<th>제조사</th>
 					<th>구입처</th>
 					<th>AS연락처</th>
 					<th>자산번호</th>
@@ -182,13 +182,13 @@ if ($line_number > 1 && $line_number <= 2) {
 				<tr class="edit_table_row">
 					<td><?=$i + 1?></td>
 					<td><?=$result[$i]['code']?></td>
+					<td><?=$result[$i]['manufacturer']?></td>
 					<td><?=$result[$i]['item']?></td>
-					<td><?=$result[$i]['color']?></td>
 					<td><?=$result[$i]['size']?></td>
 					<td><img src="./images/product-img/<?=$result[$i]['image']?>" alt=""></td>
+					<td><?=$result[$i]['color']?></td>
 					<td><?=$result[$i]['location']?></td>
 					<td><?=$result[$i]['purchase_date']?></td>
-					<td><?=$result[$i]['manufacturer']?></td>
 					<td><?=$result[$i]['wheretobuy']?></td>
 					<td><?=$result[$i]['contact']?></td>
 					<td><?=$result[$i]['asset_no']?></td>
@@ -207,44 +207,50 @@ if ($line_number > 1 && $line_number <= 2) {
 		</div>
 		<div class="edit_form">
 			<div class="edit_form_left">
+				<button type="button" class="btn btn_primary" onclick="location.href='http://daum.net'">제품검색하기</button>
 				<form method="post" action="./asset_regedit.php" enctype="multipart/form-data">
-					<table class="edit_form_table">
+					<table class="edit_form_table0">
 						<tr>
 							<th>제조사 제품코드</th>
-							<td><input type="text" class="form_control" name="code" id="code" placeholder="예)CHN4300AH"></td>
-						</tr>
-						<tr>
-							<th>품목</th>
-							<td><input type="text" class="form_control" name="item" id="item" placeholder="예)업무용의자"></td>
-						</tr>
-						<tr>
-							<th>색상/코드</th>
-							<td><input type="text" class="form_control" name="color" id="color" placeholder="예)코드가 있으면 코드를 없으면 주관적 색상 예) 검붉은색"></td>
-						</tr>
-						<tr>
-							<th>제품사이즈</th>
-							<td><input type="text" class="form_control" name="size" id="size" placeholder="예)1600x800x720"></td>
-						</tr>
-						<tr>
-							<th>제품이미지업로드</th>
-							<td><input type="file" class="form_control" name="product_image" id="product_image"></td>
-						</tr>
-						<tr>
-							<th>제품위치</th>
-							<td><input type="text" class="form_control" name="location" id="location" placeholder="예)퍼시스빌딩 2층 총무팀"></td>
-						</tr>
-						<tr>
-							<th>구입일</th>
-							<td><input type="text" class="form_control" name="purchase_date" id="purchase_date" placeholder="예)17년 1월 1일은 170101로 표기"></td>
+							<td><input type="hidden" class="form_control" name="code" id="code" value=""></td>
 						</tr>
 						<tr>
 							<th>제조사</th>
 							<td><input type="text" class="form_control" name="manufacturer" id="manufacturer" placeholder="예)퍼시스"></td>
 						</tr>
+						<tr>
+							<th>품목</th>
+							<td><input type="text" class="form_control" name="item" id="item"></td>
+						</tr>
+						<tr>
+							<th>제품사이즈</th>
+							<td><input type="text" class="form_control" name="size" id="size"></td>
+						</tr>
+						<tr>
+							<th>제품이미지업로드</th>
+							<td>
+								<input type="file" class="form_control" name="product_image" id="product_image">
+							</td>
+						</tr>
+					</table>
+					<br>
+					<table class="edit_form_table">
+						<tr>
+							<th>색상/코드</th>
+							<td><input type="text" class="form_control" name="color" id="color"></td>
+						</tr>
+						<tr>
+							<th>제품위치</th>
+							<td><input type="text" class="form_control" name="location" id="location" placeholder="예)퍼시스빌딩 2층 총무팀"></td>
+						</tr>
 					</table>			
 				</div>
 				<div class="edit_form_right">
 					<table class="edit_form_table">
+						<tr>
+							<th>구입일</th>
+							<td><input type="text" class="form_control" name="purchase_date" id="purchase_date" placeholder="예)17년 1월 1일은 170101로 표기"></td>
+						</tr>
 						<tr>
 							<th>구입처</th>
 							<td><input type="text" class="form_control" name="wheretobuy" id="wheretobuy" placeholder="예)퍼시스 오피스컨설팅그룹"></td>
